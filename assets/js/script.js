@@ -10,7 +10,9 @@ var windEl = document.getElementById('wind');
 var humidityEl = document.getElementById('humidity');
 var cityInput = document.getElementById('current-city')
 var forecastEl = document.getElementById('forecast');
-console.log(forecastEl);
+var historyEl = document.getElementById('history');
+
+//console.log(forecastEl);
 //var currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
 //var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
 //var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}             &appid={API key}
@@ -75,8 +77,43 @@ function currentWeatherApi(lat, long, city){
     console.log(currentTempEl);
 
     fiveDaysForcast(lat, long);
+    // push to array and local storage
+    saveHistory(city);    
   });
 
+}
+
+function saveHistory(city){
+  console.log("save city is:");
+  console.log(city);
+  // get localHistory to array
+  var array = [];
+  if (localStorage.getItem('saved-cities')!= null){
+    array = JSON.parse(localStorage.getItem('saved-cities'));
+  }
+  // Find the index of the element in the array
+  var index = array.indexOf(city);
+  // Check if the element exists (index will be -1 if the element is not found)
+  if (index !== -1) {
+    // Remove the element using splice()
+    array.splice(index, 1);
+  }  
+  array.push(city);
+  console.log(array);
+  localStorage.setItem('saved-cities', JSON.stringify(array));
+  // remove existing entries
+  // Remove all li elements (children) from the ul
+  while (historyEl.firstChild) {
+    historyEl.removeChild(historyEl.firstChild);
+  }  
+  // create all childs
+  for (i=array.length-1; i>=0; i--){
+    liEl = document.createElement('li');
+    liEl.textContent = array[i];
+    console.log(liEl);
+    historyEl.appendChild(liEl);
+  }
+  
 }
 
 
@@ -113,13 +150,13 @@ function fiveDaysForcast(lat, long){
 
       var strDate = dayjs(data.list[i].dt_txt).format('DD/MM/YYYY');
       h5El.textContent = strDate;
-      console.log(strDate);
+      //console.log(strDate);
 
       p1El = document.createElement('p');
       p1El.classList.add('card-text');
       
       var weather = ''
-      console.log(data.list[i].weather[0].main);
+      //console.log(data.list[i].weather[0].main);
       if (data.list[i].weather[0].main == 'Clouds'){
         weather = '☁️'; 
       } else if (data.list[i].weather[0].main == 'Rain'){
@@ -128,11 +165,12 @@ function fiveDaysForcast(lat, long){
         weather = '☀️';
       }   
       p1El.textContent = weather;
-      console.log(weather);      
+      //console.log(weather);      
       
       p2El = document.createElement('p');
       p2El.classList.add('card-text');
       p2El.textContent = "Temp: " + data.list[i].main.temp + " °C";
+      //console.log(data.list[i].main.temp);
 
       p3El = document.createElement('p');
       p3El.classList.add('card-text');
@@ -155,6 +193,7 @@ function fiveDaysForcast(lat, long){
     }
     forecastEl.appendChild(div1);
 
+
   });
 
 
@@ -170,6 +209,7 @@ function getApi(event) {
   //city = 'Macau';
   retrieveLatLong(city);
   //console.log(currentCity);
+  cityInput.value('');
   
 }
 
