@@ -109,7 +109,65 @@ function fiveDaysForcast(lat, long){
   .then(function (data) {
     console.log(data);
 
-/*<div class="card" style="width: 18rem;">
+    div1 = document.createElement('div');
+    div1.classList.add('row',  'row-cols-1', 'row-cols-md-5');
+
+    for (var i=7; i<data.list.length; i+=8){
+      console.log(i);
+      div2 = document.createElement('div');
+      div2.classList.add('card', 'm-2');
+      div2.style.width = '9rem';
+      
+      div3 = document.createElement('div');
+      div3.classList.add('card-body');
+
+      h5El = document.createElement('h5');
+      h5El.classList.add('card-title');
+
+      var strDate = dayjs(data.list[i].dt_txt).format('DD/MM/YYYY');
+      h5El.textContent = strDate;
+      console.log(strDate);
+
+      p1El = document.createElement('p');
+      p1El.classList.add('card-text');
+      
+      var weather = ''
+      if (data.list[i].weather.main == 'Clouds'){
+        weather = '☁️'; 
+      } else if (data.list[i].weather.main == 'Rain'){
+        weather = '🌧 '; 
+      } else if (data.list[i].weather.main == 'Clear') {
+        weather = '☀️';
+      }   
+      p1El.textContent = weather;
+      
+      p2El = document.createElement('p');
+      p2El.classList.add('card-text');
+      p2El.textContent = "Temp: " + data.list[i].main.temp;
+
+      p3El = document.createElement('p');
+      p3El.classList.add('card-text');
+      p3El.textContent = "Wind: " + data.list[i].wind.speed + ' mph';
+
+      p4El = document.createElement('p');
+      p4El.classList.add('card-text');
+      p4El.textContent = "Humidity: " + data.list[i].main.humidity + ' %';
+
+      h5El.appendChild(p1El)
+      h5El.appendChild(p2El);
+      h5El.appendChild(p3El);
+      h5El.appendChild(p4El);
+
+      div3.appendChild(h5El);
+      div2.appendChild(div3);
+    
+      div1.appendChild(div2);
+
+    }
+    forecastEl.appendChild(div1);
+
+/*<div class="row row-cols-1 row-cols-md-5">
+<div class="card m-2" style="width: 9rem;">
   <img src="..." class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title">Card title</h5>
@@ -117,8 +175,8 @@ function fiveDaysForcast(lat, long){
     <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>*/
-    div1 = document.createElement('div');
-    div1
+
+
 
     /*☀️☁️ 🌧 */
     /*var datenow = dayjs.unix(data.dt);
