@@ -110,6 +110,7 @@ function saveHistory(city){
   for (i=array.length-1; i>=0; i--){
     liEl = document.createElement('li');
     liEl.textContent = array[i];
+    liEl.classList.add('histBtn',  'btn', 'btn-primary', 'w-100', 'list-group-item', 'list-group-item-action', 'mb-1');
     console.log(liEl);
     historyEl.appendChild(liEl);
   }
@@ -202,14 +203,23 @@ function fiveDaysForcast(lat, long){
 function getApi(event) {
   //console.log("Clicked");
   event.preventDefault();
-  city = cityInput.value;
+  if (cityInput.value){
+    city = cityInput.value;
+    console.log("cityInput");
+    console.log(city);
+
+  } else {
+    city = event.target.textContent;
+    console.log("Event");
+    console.log(city);
+  }
   //console.log(city);
   //city = 'Birmingham';
   //city = 'Hong Kong';
   //city = 'Macau';
   retrieveLatLong(city);
   //console.log(currentCity);
-  cityInput.value('');
+  cityInput.value = '';
   
 }
 
@@ -217,5 +227,11 @@ function getApi(event) {
 $(function () {
 
   searchButton.addEventListener('click', getApi);
-  
+
+  document.addEventListener('click', function(event) {
+    if (event.target.matches('.histBtn')) {
+      getApi(event);
+    }
+  });  
+
 });
