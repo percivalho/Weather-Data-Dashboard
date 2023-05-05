@@ -9,7 +9,8 @@ var currentTempEl = document.getElementById('current-temp');
 var windEl = document.getElementById('wind');
 var humidityEl = document.getElementById('humidity');
 var cityInput = document.getElementById('current-city')
-
+var forecastEl = document.getElementById('forecast');
+console.log(forecastEl);
 //var currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
 //var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
 //var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}             &appid={API key}
@@ -73,11 +74,18 @@ function currentWeatherApi(lat, long, city){
     console.log('Current Temp: ' + data.main.temp);
     console.log(currentTempEl);
 
+    fiveDaysForcast(lat, long);
+/*<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>*/
 
 
 
-
-    
     /*for (var i = 0; i < data.length; i++) {
       var userName = document.createElement('h3');
       var issueTitle = document.createElement('p');
@@ -87,6 +95,67 @@ function currentWeatherApi(lat, long, city){
       issueContainer.append(issueTitle);
     }*/
   });
+
+}
+
+
+function fiveDaysForcast(lat, long){
+  var weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
+  fetch(weatherUrl)
+  .then(function (response) {
+    //console.log(response);
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+
+/*<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>*/
+    div1 = document.createElement('div');
+    div1
+
+    /*☀️☁️ 🌧 */
+    /*var datenow = dayjs.unix(data.dt);
+    var formDateNow = datenow.format('DD/MM/YYYY');
+    var weather = "";
+    console.log(data.weather[0].main);
+    if (data.weather[0].main == 'Clouds'){
+      weather = '☁️'; 
+    } else if (data.weather[0].main == 'Rain'){
+      weather = '🌧 '; 
+    } else if (data.weather[0].main == 'Clear') {
+      weather = '☀️';
+    }*/
+    //cityNameEl.textContent = data.name + " " + formDateNow + " " + weather;
+    //cityNameEl.textContent = city + " " + formDateNow + " " + weather;
+    //console.log(data.main.temp);
+    //windEl.textContent = 'Wind: ' + data.wind.speed + ' mph';
+    //humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
+    //currentTempEl.textContent = 'Current Temp: ' + data.main.temp + " °C";
+    //console.log('Current Temp: ' + data.main.temp);
+    //console.log(currentTempEl);
+
+
+
+
+
+
+    /*for (var i = 0; i < data.length; i++) {
+      var userName = document.createElement('h3');
+      var issueTitle = document.createElement('p');
+      userName.textContent = data[i].user.login;
+      issueTitle.textContent = data[i].title;
+      issueContainer.append(userName);
+      issueContainer.append(issueTitle);
+    }*/
+  });
+
 
 }
 
