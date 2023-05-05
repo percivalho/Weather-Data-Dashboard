@@ -75,25 +75,6 @@ function currentWeatherApi(lat, long, city){
     console.log(currentTempEl);
 
     fiveDaysForcast(lat, long);
-/*<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>*/
-
-
-
-    /*for (var i = 0; i < data.length; i++) {
-      var userName = document.createElement('h3');
-      var issueTitle = document.createElement('p');
-      userName.textContent = data[i].user.login;
-      issueTitle.textContent = data[i].title;
-      issueContainer.append(userName);
-      issueContainer.append(issueTitle);
-    }*/
   });
 
 }
@@ -109,14 +90,20 @@ function fiveDaysForcast(lat, long){
   .then(function (data) {
     console.log(data);
 
+    var k = document.getElementById('five-day');
+    if (k){ // only remove it when there is already five-day there
+      forecastEl.removeChild(k);
+    }
+
     div1 = document.createElement('div');
     div1.classList.add('row',  'row-cols-1', 'row-cols-md-5');
+    div1.setAttribute('id', 'five-day');
 
     for (var i=7; i<data.list.length; i+=8){
       console.log(i);
       div2 = document.createElement('div');
       div2.classList.add('card', 'm-2');
-      div2.style.width = '9rem';
+      div2.style.width = '11rem';
       
       div3 = document.createElement('div');
       div3.classList.add('card-body');
@@ -132,18 +119,20 @@ function fiveDaysForcast(lat, long){
       p1El.classList.add('card-text');
       
       var weather = ''
-      if (data.list[i].weather.main == 'Clouds'){
+      console.log(data.list[i].weather[0].main);
+      if (data.list[i].weather[0].main == 'Clouds'){
         weather = '☁️'; 
-      } else if (data.list[i].weather.main == 'Rain'){
+      } else if (data.list[i].weather[0].main == 'Rain'){
         weather = '🌧 '; 
-      } else if (data.list[i].weather.main == 'Clear') {
+      } else if (data.list[i].weather[0].main == 'Clear') {
         weather = '☀️';
       }   
       p1El.textContent = weather;
+      console.log(weather);      
       
       p2El = document.createElement('p');
       p2El.classList.add('card-text');
-      p2El.textContent = "Temp: " + data.list[i].main.temp;
+      p2El.textContent = "Temp: " + data.list[i].main.temp + " °C";
 
       p3El = document.createElement('p');
       p3El.classList.add('card-text');
@@ -166,52 +155,6 @@ function fiveDaysForcast(lat, long){
     }
     forecastEl.appendChild(div1);
 
-/*<div class="row row-cols-1 row-cols-md-5">
-<div class="card m-2" style="width: 9rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>*/
-
-
-
-    /*☀️☁️ 🌧 */
-    /*var datenow = dayjs.unix(data.dt);
-    var formDateNow = datenow.format('DD/MM/YYYY');
-    var weather = "";
-    console.log(data.weather[0].main);
-    if (data.weather[0].main == 'Clouds'){
-      weather = '☁️'; 
-    } else if (data.weather[0].main == 'Rain'){
-      weather = '🌧 '; 
-    } else if (data.weather[0].main == 'Clear') {
-      weather = '☀️';
-    }*/
-    //cityNameEl.textContent = data.name + " " + formDateNow + " " + weather;
-    //cityNameEl.textContent = city + " " + formDateNow + " " + weather;
-    //console.log(data.main.temp);
-    //windEl.textContent = 'Wind: ' + data.wind.speed + ' mph';
-    //humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
-    //currentTempEl.textContent = 'Current Temp: ' + data.main.temp + " °C";
-    //console.log('Current Temp: ' + data.main.temp);
-    //console.log(currentTempEl);
-
-
-
-
-
-
-    /*for (var i = 0; i < data.length; i++) {
-      var userName = document.createElement('h3');
-      var issueTitle = document.createElement('p');
-      userName.textContent = data[i].user.login;
-      issueTitle.textContent = data[i].title;
-      issueContainer.append(userName);
-      issueContainer.append(issueTitle);
-    }*/
   });
 
 
