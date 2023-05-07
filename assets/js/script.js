@@ -68,7 +68,7 @@ function currentWeatherApi(lat, long, city){
       weather = '☀️';
     }
     //cityNameEl.textContent = data.name + " " + formDateNow + " " + weather;
-    cityNameEl.textContent = city + " " + formDateNow + " " + weather;
+    cityNameEl.textContent = city + " (" + formDateNow + ") " + weather;
     //console.log(data.main.temp);
     windEl.textContent = 'Wind: ' + data.wind.speed + ' mph';
     humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
@@ -117,6 +117,25 @@ function saveHistory(city){
   
 }
 
+function loadFromLocalStorage(){
+  var array = [];
+  if (localStorage.getItem('saved-cities')!= null){
+    array = JSON.parse(localStorage.getItem('saved-cities'));
+  }
+  while (historyEl.firstChild) {
+    historyEl.removeChild(historyEl.firstChild);
+  }  
+  // create all childs
+  for (i=array.length-1; i>=0; i--){
+    liEl = document.createElement('li');
+    liEl.textContent = array[i];
+    liEl.classList.add('histBtn',  'btn', 'btn-primary', 'w-100', 'list-group-item', 'list-group-item-action', 'mb-2');
+    console.log(liEl);
+    historyEl.appendChild(liEl);
+  }
+
+}
+
 
 function fiveDaysForcast(lat, long){
   var weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
@@ -148,6 +167,8 @@ function fiveDaysForcast(lat, long){
 
       h5El = document.createElement('h5');
       h5El.classList.add('card-title');
+      h5El.style.fontWeight = 'bold'; // Make the font bolder
+
 
       var strDate = dayjs(data.list[i].dt_txt).format('DD/MM/YYYY');
       h5El.textContent = strDate;
@@ -181,12 +202,18 @@ function fiveDaysForcast(lat, long){
       p4El.classList.add('card-text');
       p4El.textContent = "Humidity: " + data.list[i].main.humidity + ' %';
 
-      h5El.appendChild(p1El)
+      /*h5El.appendChild(p1El)
       h5El.appendChild(p2El);
       h5El.appendChild(p3El);
-      h5El.appendChild(p4El);
-
+      h5El.appendChild(p4El);*/
+      // Append the paragraphs as siblings of h5El
       div3.appendChild(h5El);
+      div3.appendChild(p1El);
+      div3.appendChild(p2El);
+      div3.appendChild(p3El);
+          
+
+      //div3.appendChild(h5El);
       div2.appendChild(div3);
     
       div1.appendChild(div2);
@@ -227,7 +254,7 @@ function getApi(event) {
 $(function () {
 
   searchButton.addEventListener('click', getApi);
-
+  loadFromLocalStorage();
   document.addEventListener('click', function(event) {
     if (event.target.matches('.histBtn')) {
       getApi(event);
