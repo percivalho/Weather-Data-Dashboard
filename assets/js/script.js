@@ -211,6 +211,7 @@ function fiveDaysForcast(lat, long){
       div3.appendChild(p1El);
       div3.appendChild(p2El);
       div3.appendChild(p3El);
+      div3.appendChild(p4El);
           
 
       //div3.appendChild(h5El);
