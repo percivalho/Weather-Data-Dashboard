@@ -161,7 +161,9 @@ function fiveDaysForcast(lat, long){
       div2 = document.createElement('div');
       div2.classList.add('card', 'm-2');
       div2.style.width = '11rem';
-      
+      div2.style.backgroundSize = "cover";
+      div2.style.backgroundPosition = "center"; // Add this line
+
       div3 = document.createElement('div');
       div3.classList.add('card-body');
 
@@ -176,30 +178,39 @@ function fiveDaysForcast(lat, long){
 
       p1El = document.createElement('p');
       p1El.classList.add('card-text');
-      
+      p1El.style.fontSize = "24px"; // Set font size to 24 pixels
+
       var weather = ''
       //console.log(data.list[i].weather[0].main);
       if (data.list[i].weather[0].main == 'Clouds'){
         weather = '☁️'; 
+        div2.style.backgroundImage = "url('./assets/images/cloudy.jpg')";
+        
       } else if (data.list[i].weather[0].main == 'Rain'){
         weather = '🌧 '; 
+        div2.style.backgroundImage = "url('./assets/images/rainy.jpg')";
+
       } else if (data.list[i].weather[0].main == 'Clear') {
         weather = '☀️';
+        div2.style.backgroundImage = "url('./assets/images/sunny.jpg')";
       }   
       p1El.textContent = weather;
       //console.log(weather);      
       
       p2El = document.createElement('p');
       p2El.classList.add('card-text');
+      p2El.style.color = 'white'; // Set the font color to white      
       p2El.textContent = "Temp: " + data.list[i].main.temp + " °C";
       //console.log(data.list[i].main.temp);
 
       p3El = document.createElement('p');
       p3El.classList.add('card-text');
+      p3El.style.color = 'white'; // Set the font color to white      
       p3El.textContent = "Wind: " + data.list[i].wind.speed + ' mph';
 
       p4El = document.createElement('p');
       p4El.classList.add('card-text');
+      p4El.style.color = 'white'; // Set the font color to white      
       p4El.textContent = "Humidity: " + data.list[i].main.humidity + ' %';
 
       /*h5El.appendChild(p1El)
