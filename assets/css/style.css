@@ -2,6 +2,12 @@ body {
   /*font-family: 'Open Sans', sans-serif;*/
   font-family: 'Didact Gothic', sans-serif;
   font-size: 16px;
+
+  background: url('../images/background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .card-text {
