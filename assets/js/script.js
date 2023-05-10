@@ -9,7 +9,7 @@ var cityInput = document.getElementById('current-city')
 var forecastEl = document.getElementById('forecast');
 var historyEl = document.getElementById('history');
 var errorEl = document.getElementById('error');
-
+var currentWeatherEl = document.getElementById('current-weather');
 
 /**
  * to retrieve the Latitude and Longitude from city name using api 
@@ -83,11 +83,15 @@ function currentWeatherApi(lat, long, city, ctcd){
     var weather = "";
     if (data.weather[0].main == 'Clouds'){
       weather = '☁️'; 
+      currentWeatherEl.style.backgroundImage = "url('./assets/images/cloudy.jpg')";
     } else if (data.weather[0].main == 'Rain'){
       weather = '🌧 '; 
+      currentWeatherEl.style.backgroundImage = "url('./assets/images/rainy.jpg')";
     } else if (data.weather[0].main == 'Clear') {
       weather = '☀️';
+      currentWeatherEl.style.backgroundImage = "url('./assets/images/sunny.jpg')";
     }
+
     cityNameEl.textContent = city + ", " + ctcd + " (" + formDateNow + ") " + weather;
     windEl.textContent = 'Wind: ' + mpsToMPH(data.wind.speed) + ' mph';
     humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
