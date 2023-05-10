@@ -48,38 +48,32 @@ This application is built using the following APIs:
 
 ## Usage
 
-open index.html in Google Chrome (recommended), the Schedule Input is shown as below:
+open index.html in Google Chrome (recommended), the Weather Data Dashboard is shown as below:
 
-![Schedule Input Start Page](assets/images/start.png)
+![Weather Data Dashboard Start Page](assets/images/start.png)
 
-the current time is updated every second. 
+Type in the city you search for the current weather and 5 days forecast and the city stored in local storage and can retrieve by clicking on the button on search history.
 
-![Current Time update](assets/images/time.png)
+![Show the current weather and 5 days forecast ](assets/images/forecast.png)
 
-The Task input textareas are color-coded, with grey for past events, red for present event and green for future events
+It shows sunny, cloudy and rainy based on the forecast
+![Sunny, cloudy and rainy](assets/images/sunny.png)
 
-![Past Present Future](assets/images/textareas.png)
+On Refresh the page, saved history still shown as buttons
 
-on clicking the save button after input the task, a message is displayed out and faded out in 3 seconds.
-
-![Saved Message](assets/images/message.png)
-
-On Refresh the page, start page is shown with saved entries
-
-![Saved Entries](assets/images/start2.png)
+![Local Storage](assets/images/storage.png)
 
 
 ## Features
 
 it includes the following features:
 
-1.  The current date, day and time are displayed on start page.
-2.  The current time will be updated on every second.
-3.  Task input text areas are color-coded, with grey for past events, red for present event and gree for future events
-4.  The text areas color-coded is updated per minute
-5.  On clicking the save button after inputting a task, it will save to localStorage
-6.  upon saved to localStorage, a message is displayed out to show the task is saved and the message will fade out in 3 second.
-7.  On refreshing the page, the saved entries still can be shown
+1.  current weather and 5 days forecast of different cities of the world can be shown using OpenWeatherMap API.
+2.  the city will be added to search history.
+3.  for current weather, current temperature, humidity and wind speed and weather condition symbols are shown. 
+4.  for 5 days forecase, similar info, date, temperature, wind speed and humidity are shown.
+5.  the city in the search history can be clicked for search to retrieve current weather and 5 day forecast.
+6.  on refreshing the page, the search history are still there.
 
 
 
@@ -87,17 +81,17 @@ it includes the following features:
 
 Testing done on:
 
-1. testing on current day, date, time display.
-2. testing time update on every second
-3. testing input text areas color-coded.
-4. testing on text areas update on every minute (to test by watching carefully on every 59min per hour and see if any updating on next hour)
-5. testing on input a task and saved, entry is saved in localStoreage.
-6. testing on display saved message after entry saved in localStorage.
-7. testing on refreshing the page, saved entries still can be retrieved from localStorage.
-8. testing on save button on blank input in textArea, nothing saved to localStorage and no saved message shown.
-9. testing on updating the existing saved entries, entry is updated to localStorage.
-10. testing on update entry retrieveal on refreshing the page
-
+1. testing on default page display on show up.
+2. testing on input valid city name.
+3. testing on input invalid city name, like Abc, with 'city not found'. 
+4. testing on no internet connection, with 'Connection Error' on error message.
+5. testing on the error message display disappear when focus on input field.
+6. testing on display the current weather details including city, date, weather symbol, temperature, wind speed, and humidity.
+7. testing on display the 5 day forecast details including date, weather symbol, temperature, wind speed, and humidity.
+8. testing on clicking on saved city button and current and 5 day forecast display
+9. testing on refreshing the page and those saved cities still can be found. 
+10. testing on media break point and changing screen sizes.
+11. testing on funny city names, like Bat Cave, Llanfairpwllgwyngyll and so on.
 
 
 

@@ -1,8 +1,5 @@
 var apiKey = '77ca7d6ec3122dd37ca00d73aa375bef';
-//var lat = 52.489471
-//var long = -1.898575
 
-//var issueContainer = document.getElementById('issues');
 var searchButton = document.getElementById('search-button');
 var cityNameEl = document.getElementById('city-name');
 var currentTempEl = document.getElementById('current-temp');
@@ -13,71 +10,73 @@ var forecastEl = document.getElementById('forecast');
 var historyEl = document.getElementById('history');
 var errorEl = document.getElementById('error');
 
-//console.log(forecastEl);
-//var currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
-//var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
-//var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}             &appid={API key}
-//console.log(requestUrl);
 
+/**
+ * to retrieve the Latitude and Longitude from city name using api 
+ * @param city
+ * @returns respoonse.json() upon response failed
+ */
 function retrieveLatLong(city){
 
   var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + '&appid=' + apiKey;
   var lat = 0;
   var long =0;
   errorEl.textContent = "";
+
   fetch(requestUrl)
   .then(function (response) {
     if (response.status !== 200){
       console.log(response);
-      //errorEl.textContent = 
     }   
     return response.json();
   })
   .then(function(data){
-    console.log('retrieveLatLong');
-    console.log(data);
+    //console.log('retrieveLatLong');
+    //console.log(data);
 
     if (data.cod == 404){
       errorEl.textContent = data.message;
-      //errorEl.style.color = "#990000";
-      //errorEl.style.color = "red";
     } else {
       lat = data.coord.lat;
       long = data.coord.lon;
       city = data.name;
       ctcd = data.sys.country;
-  
+      
       console.log(`Latitude: ${lat}, Longitude: ${long}, City: ${city}, Country: ${ctcd}`);
-      currentWeatherApi(lat, long, city, ctcd);  
-  
+      currentWeatherApi(lat, long, city, ctcd);    
     }
 
   })
   .catch((error) => {
     console.error('Error fetching data:', error);
     errorEl.textContent = "Connection Error";
-    //errorEl.style.color = "red";
 
   });
 }
 
-
+/**
+ * to retrieve the current weather info from input parameter
+ * @param Latitude 
+ * @param Longitude
+ * @param City - City name
+ * @param ctcd - Country Code, add this for Birmingham has US and UK 
+ * @returns respoonse.json() upon response failed
+ */
 function currentWeatherApi(lat, long, city, ctcd){
   //var currentWeatherUrl = 
   var currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
+  // not working for one-call on free account
   //var currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
   fetch(currentWeatherUrl)
   .then(function (response) {
     if (response.status !== 200){
       console.log(response);
-      //errorEl.
     }
     console.log(response);
     return response.json();
   })
   .then(function (data) {
     console.log(data);
-    /*☀️☁️ 🌧 */
     var datenow = dayjs.unix(data.dt);
     var formDateNow = datenow.format('DD/MM/YYYY');
     var weather = "";
@@ -89,31 +88,34 @@ function currentWeatherApi(lat, long, city, ctcd){
     } else if (data.weather[0].main == 'Clear') {
       weather = '☀️';
     }
-    //cityNameEl.textContent = data.name + " " + formDateNow + " " + weather;
-    cityNameEl.textContent = city +", " + ctcd + " (" + formDateNow + ") " + weather;
-    //console.log(data.main.temp);
+    cityNameEl.textContent = city + ", " + ctcd + " (" + formDateNow + ") " + weather;
     windEl.textContent = 'Wind: ' + data.wind.speed + ' mph';
     humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
     currentTempEl.textContent = 'Current Temp: ' + data.main.temp + " °C";
     console.log('Current Temp: ' + data.main.temp);
     console.log(currentTempEl);
 
+    // continue to retrieve the 5 days forecast
     fiveDaysForcast(lat, long);
     // push to array and local storage
     saveHistory(city);    
+
   })
   .catch((error) => {
     console.error('Error fetching data:', error);
     errorEl.textContent = "Connection Error";
-    //errorEl.style.color = "red";
-
   });
 
 }
 
+/**
+ * to save the city to save history (local storage)
+ * @param City 
+ * @returns None
+ */
 function saveHistory(city){
-  console.log("save city is:");
-  console.log(city);
+  //console.log("save city is:");
+  //console.log(city);
   // get localHistory to array
   var array = [];
   if (localStorage.getItem('saved-cities')!= null){
@@ -145,6 +147,11 @@ function saveHistory(city){
   
 }
 
+/**
+ * to load the save history from local history
+ * @param None
+ * @returns None
+ */
 function loadFromLocalStorage(){
   var array = [];
   if (localStorage.getItem('saved-cities')!= null){
@@ -164,16 +171,25 @@ function loadFromLocalStorage(){
 
 }
 
-
+/**
+ * to retreive the five day Forecast
+ * @param Latitude
+ * @param Longitude
+ * @returns response.json()
+ */
 function fiveDaysForcast(lat, long){
   var weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + long + '&appid=' + apiKey + '&units=metric';
   fetch(weatherUrl)
   .then(function (response) {
-    //console.log(response);
+    if (response.status !== 200){
+      console.log(response);
+    }
+    console.log(response);
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
+    
+    //console.log(data);
 
     var k = document.getElementById('five-day');
     if (k){ // only remove it when there is already five-day there
@@ -190,9 +206,8 @@ function fiveDaysForcast(lat, long){
       console.log(i);
       div2 = document.createElement('div');
       div2.classList.add('card', 'm-1');
-      //div2.style.width = '10rem';
       div2.style.backgroundSize = "cover";
-      div2.style.backgroundPosition = "center"; // Add this line
+      div2.style.backgroundPosition = "center"; // to center the cards
 
       div3 = document.createElement('div');
       div3.classList.add('card-body');
@@ -202,18 +217,14 @@ function fiveDaysForcast(lat, long){
       h5El.style.fontWeight = 'bold'; // Make the font bolder
       h5El.style.color = 'white'; // Set the font color to white      
 
-
-
       var strDate = dayjs(data.list[i].dt_txt).format('DD/MM/YYYY');
       h5El.textContent = strDate;
-      //console.log(strDate);
 
       p1El = document.createElement('p');
       p1El.classList.add('card-text');
       p1El.style.fontSize = "24px"; // Set font size to 24 pixels
 
       var weather = ''
-      //console.log(data.list[i].weather[0].main);
       if (data.list[i].weather[0].main == 'Clouds'){
         weather = '☁️'; 
         div2.style.backgroundImage = "url('./assets/images/cloudy.jpg')";
@@ -227,13 +238,11 @@ function fiveDaysForcast(lat, long){
         div2.style.backgroundImage = "url('./assets/images/sunny.jpg')";
       }   
       p1El.textContent = weather;
-      //console.log(weather);      
       
       p2El = document.createElement('p');
       p2El.classList.add('card-text');
       p2El.style.color = 'white'; // Set the font color to white      
       p2El.textContent = "Temp: " + data.list[i].main.temp + " °C";
-      //console.log(data.list[i].main.temp);
 
       p3El = document.createElement('p');
       p3El.classList.add('card-text');
@@ -245,19 +254,13 @@ function fiveDaysForcast(lat, long){
       p4El.style.color = 'white'; // Set the font color to white      
       p4El.textContent = "Humidity: " + data.list[i].main.humidity + ' %';
 
-      /*h5El.appendChild(p1El)
-      h5El.appendChild(p2El);
-      h5El.appendChild(p3El);
-      h5El.appendChild(p4El);*/
       // Append the paragraphs as siblings of h5El
       div3.appendChild(h5El);
       div3.appendChild(p1El);
       div3.appendChild(p2El);
       div3.appendChild(p3El);
       div3.appendChild(p4El);
-          
 
-      //div3.appendChild(h5El);
       div2.appendChild(div3);
     
       div1.appendChild(div2);
@@ -265,12 +268,16 @@ function fiveDaysForcast(lat, long){
     }
     forecastEl.appendChild(div1);
 
-
   });
-
 
 }
 
+
+/**
+ * to get Api - wrapper function
+ * @param event
+ * @returns none
+ */
 function getApi(event) {
   //console.log("Clicked");
   event.preventDefault();
@@ -278,34 +285,32 @@ function getApi(event) {
     city = cityInput.value;
     console.log("cityInput");
     console.log(city);
-
   } else {
     city = event.target.textContent;
     console.log("Event");
     console.log(city);
   }
-  //console.log(city);
-  //city = 'Birmingham';
-  //city = 'Hong Kong';
-  //city = 'Macau';
   retrieveLatLong(city);
-  //console.log(currentCity);
-  cityInput.value = '';
-  
+  cityInput.value = '';  
 }
 
 
 $(function () {
 
+  // search button clicked
   searchButton.addEventListener('click', getApi);
+
+  // load from local Storage
   loadFromLocalStorage();
+
+  // for clicking on saved history button
   document.addEventListener('click', function(event) {
     if (event.target.matches('.histBtn')) {
       getApi(event);
     }
   });  
 
-  
+  // clear the error message upon focus on input field
   cityInput.addEventListener('focus', function() {
     errorEl.textContent = "";
   });  
