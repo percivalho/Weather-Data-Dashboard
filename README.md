@@ -101,7 +101,7 @@ Link to Deployed Website:
 
 
 Link to GitHub repo:
-
+https://github.com/percivalho/Weather-Data-Dashboard.git
 
 
 ## License 

@@ -42,7 +42,7 @@ function retrieveLatLong(city){
       city = data.name;
       ctcd = data.sys.country;
       
-      console.log(`Latitude: ${lat}, Longitude: ${long}, City: ${city}, Country: ${ctcd}`);
+      //console.log(`Latitude: ${lat}, Longitude: ${long}, City: ${city}, Country: ${ctcd}`);
       currentWeatherApi(lat, long, city, ctcd);    
     }
 
@@ -76,11 +76,11 @@ function currentWeatherApi(lat, long, city, ctcd){
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
+    //console.log(data);
     var datenow = dayjs.unix(data.dt);
     var formDateNow = datenow.format('DD/MM/YYYY');
+    
     var weather = "";
-    console.log(data.weather[0].main);
     if (data.weather[0].main == 'Clouds'){
       weather = '☁️'; 
     } else if (data.weather[0].main == 'Rain'){
@@ -92,8 +92,7 @@ function currentWeatherApi(lat, long, city, ctcd){
     windEl.textContent = 'Wind: ' + mpsToMPH(data.wind.speed) + ' mph';
     humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
     currentTempEl.textContent = 'Current Temp: ' + data.main.temp + " °C";
-    console.log('Current Temp: ' + data.main.temp);
-    console.log(currentTempEl);
+    //console.log(currentTempEl);
 
     // continue to retrieve the 5 days forecast
     fiveDaysForcast(lat, long);
@@ -114,8 +113,6 @@ function currentWeatherApi(lat, long, city, ctcd){
  * @returns None
  */
 function saveHistory(city){
-  //console.log("save city is:");
-  //console.log(city);
   // get localHistory to array
   var array = [];
   if (localStorage.getItem('saved-cities')!= null){
@@ -129,7 +126,7 @@ function saveHistory(city){
     array.splice(index, 1);
   }  
   array.push(city);
-  console.log(array);
+  //console.log(array);
   localStorage.setItem('saved-cities', JSON.stringify(array));
   // remove existing entries
   // Remove all li elements (children) from the ul
@@ -141,7 +138,7 @@ function saveHistory(city){
     liEl = document.createElement('li');
     liEl.textContent = array[i];
     liEl.classList.add('histBtn',  'btn', 'btn-primary', 'w-100', 'list-group-item', 'list-group-item-action', 'mb-1');
-    console.log(liEl);
+    //console.log(liEl);
     historyEl.appendChild(liEl);
   }
   
@@ -165,7 +162,7 @@ function loadFromLocalStorage(){
     liEl = document.createElement('li');
     liEl.textContent = array[i];
     liEl.classList.add('histBtn',  'btn', 'btn-primary', 'w-100', 'list-group-item', 'list-group-item-action', 'mb-2');
-    console.log(liEl);
+    //console.log(liEl);
     historyEl.appendChild(liEl);
   }
 
@@ -218,7 +215,7 @@ function fiveDaysForcast(lat, long){
     div1.style.justifyContent = "center"; // Add this line    
 
     for (var i=7; i<data.list.length; i+=8){
-      console.log(i);
+      //console.log(i);
       div2 = document.createElement('div');
       div2.classList.add('card', 'm-1');
       div2.style.backgroundSize = "cover";
@@ -298,12 +295,12 @@ function getApi(event) {
   event.preventDefault();
   if (cityInput.value){
     city = cityInput.value;
-    console.log("cityInput");
-    console.log(city);
+    //console.log("cityInput");
+    //console.log(city);
   } else {
     city = event.target.textContent;
-    console.log("Event");
-    console.log(city);
+    //console.log("Event");
+    //console.log(city);
   }
   retrieveLatLong(city);
   cityInput.value = '';  
