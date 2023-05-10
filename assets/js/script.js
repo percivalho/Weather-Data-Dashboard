@@ -89,7 +89,7 @@ function currentWeatherApi(lat, long, city, ctcd){
       weather = '☀️';
     }
     cityNameEl.textContent = city + ", " + ctcd + " (" + formDateNow + ") " + weather;
-    windEl.textContent = 'Wind: ' + data.wind.speed + ' mph';
+    windEl.textContent = 'Wind: ' + mpsToMPH(data.wind.speed) + ' mph';
     humidityEl.textContent = 'Humidity: ' + data.main.humidity + ' %' ;
     currentTempEl.textContent = 'Current Temp: ' + data.main.temp + " °C";
     console.log('Current Temp: ' + data.main.temp);
@@ -172,6 +172,21 @@ function loadFromLocalStorage(){
 }
 
 /**
+ * utility function - meter per sec to mile per hour
+ * @param mps - meter per sec
+ * @returns mph - miles per hour
+ */
+function mpsToMPH(mps){
+  // 1 mile = 1609.344 metres
+  // 1 meter = 1/1609 miles about 0.0006215
+  var a = mps/1609.344;  // miles per second
+  var b = a * 60 * 60;
+  b = parseInt(b*100)/100; // to make it round to two decimal points
+  return b;
+}
+
+
+/**
  * to retreive the five day Forecast
  * @param Latitude
  * @param Longitude
@@ -247,7 +262,7 @@ function fiveDaysForcast(lat, long){
       p3El = document.createElement('p');
       p3El.classList.add('card-text');
       p3El.style.color = 'white'; // Set the font color to white      
-      p3El.textContent = "Wind: " + data.list[i].wind.speed + ' mph';
+      p3El.textContent = "Wind: " + mpsToMPH(data.list[i].wind.speed) + ' mph';
 
       p4El = document.createElement('p');
       p4El.classList.add('card-text');
