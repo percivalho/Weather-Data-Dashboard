@@ -18,7 +18,7 @@
   </head>
 
   <body>
-    <header class="mb-3 border-3 border-bottom border-dark text-center bg-primary text-white">
+    <header class="mb-3 border-3 border-bottom border-dark text-center text-white" id="header">
       <h1 class="display-3">Weather Data Dashboard</h1>
     </header>
     <main class="container">
@@ -34,6 +34,7 @@
                 <button type="submit" class="btn btn-primary w-100" id="search-button">Search</button>
               </div>
             </div>
+            <div id="error"></div>
           </form>
           <hr>
           <!--ul id="history" class="col-12"></ul-->
@@ -41,7 +42,7 @@
         </aside>
         <section class="col-md-10 col-12">
           <article class="border border-dark p-3 d-flex flex-column">
-            <h2 class="text-muted">Current Weather</h2>
+            <h2 class="text-white">Current Weather</h2>
             <div>
               <h3 id="city-name">-- </h3>
               <p id="current-temp">current temp: </p>
