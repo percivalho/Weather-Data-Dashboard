@@ -98,7 +98,7 @@ Testing done on:
 ## Resources
 
 Link to Deployed Website:
-
+https://percivalho.github.io/Weather-Data-Dashboard/
 
 Link to GitHub repo:
 https://github.com/percivalho/Weather-Data-Dashboard.git

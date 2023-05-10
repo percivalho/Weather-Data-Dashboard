@@ -72,7 +72,7 @@ function currentWeatherApi(lat, long, city, ctcd){
     if (response.status !== 200){
       console.log(response);
     }
-    console.log(response);
+    //console.log(response);
     return response.json();
   })
   .then(function (data) {
@@ -196,7 +196,7 @@ function fiveDaysForcast(lat, long){
     if (response.status !== 200){
       console.log(response);
     }
-    console.log(response);
+    //console.log(response);
     return response.json();
   })
   .then(function (data) {
